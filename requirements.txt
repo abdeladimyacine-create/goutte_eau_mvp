@@ -1,0 +1,11 @@
+requests
+pandas
+numpy
+scikit-learn
+joblib
+fastapi
+uvicorn
+streamlit
+python-dotenv
+matplotlib
+ipykernel
