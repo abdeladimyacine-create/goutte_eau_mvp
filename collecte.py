@@ -13,17 +13,17 @@ from datetime import date, timedelta
 import requests
 from dotenv import load_dotenv
 
-# ---------- Paramètres ----------
+
 load_dotenv()
 TOKEN = os.getenv("INFOCLIMAT_TOKEN")
 
-STATION = "000EW"            # Paris 20e - Porte de Vincennes (75), choisie avec choisir_station.py
-DATE_DEBUT = date(2024, 1, 1)
+STATION = "000EW"
+DATE_DEBUT = date(2024, 1, 1)            
 DATE_FIN = date(2026, 10, 31)
 DB_PATH = "data/meteo.db"
 URL_API = "https://www.infoclimat.fr/opendata/"
 
-# Seules les colonnes utiles au modèle sont conservées (dataset minimal)
+
 CHAMPS = ["temperature", "pression", "humidite", "vent_moyen",
           "vent_rafales", "pluie_1h", "pluie_3h"]
 
@@ -105,7 +105,7 @@ def main():
         except Exception as erreur:
             print(f"{jour} -> {fin_semaine} : échec ({erreur})")
         jour = fin_semaine + timedelta(days=1)
-        time.sleep(1)  # on respecte le "fair use" du service (bénévole)
+        time.sleep(1)  
 
     total = conn.execute("SELECT COUNT(*) FROM raw_observations").fetchone()[0]
     print(f"Terminé : {total} observations en base")
