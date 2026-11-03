@@ -9,7 +9,7 @@ prévision à 24 h, cohérente avec le cahier des charges.
 import numpy as np
 import pandas as pd
 
-SEUIL_PLUIE_MM = 1.0   # définition Météo-France d'un "jour de pluie" : >= 1 mm
+SEUIL_PLUIE_MM = 1.0   
 
 VARIABLES_JOUR = ["temp_moy", "temp_min", "temp_max", "pression_moy",
                   "humidite_moy", "vent_moy", "rafales_max", "pluie_mm"]
@@ -25,7 +25,7 @@ def preparer(jours, date_fin=None):
     df["date"] = pd.to_datetime(df["date"])
     df = df.set_index("date").sort_index()
 
-    # Calendrier complet : un jour manquant reste vide (pas de faux "veille")
+    
     fin = df.index.max()
     if date_fin is not None and pd.Timestamp(date_fin) > fin:
         fin = pd.Timestamp(date_fin)
@@ -40,5 +40,5 @@ def preparer(jours, date_fin=None):
     df["saison_cos"] = np.cos(2 * np.pi * jour_annee / 365.25)
 
     df["pluie"] = (df["pluie_mm"] >= SEUIL_PLUIE_MM).astype(int)
-    df.loc[df["pluie_mm"].isna(), "pluie"] = -1   # -1 = pluie inconnue
+    df.loc[df["pluie_mm"].isna(), "pluie"] = -1   
     return df

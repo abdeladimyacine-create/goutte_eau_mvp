@@ -12,10 +12,8 @@ import pandas as pd
 from collecte import STATION
 
 DB_PATH = "data/meteo.db"
-MIN_MESURES_PAR_JOUR = 12   # un jour avec trop peu de mesures n'est pas fiable
-MIN_HEURES_PLUIE = 18       # pluie du jour connue seulement si au moins 18 h sur 24 sont renseignées
-
-# Plages de valeurs plausibles : en dehors, la mesure est considérée comme erronée
+MIN_MESURES_PAR_JOUR = 12   
+MIN_HEURES_PLUIE = 18       
 LIMITES = {
     "temperature": (-30, 50),
     "pression": (950, 1060),
@@ -59,7 +57,7 @@ def pluie_par_jour(brut, colonne, periode):
     mesures = brut.dropna(subset=[colonne])
     par_periode = mesures.groupby(mesures["dh_utc"].dt.floor(periode))[colonne].last()
     par_jour = par_periode.groupby(par_periode.index.date)
-    # Un jour dont la pluie n'est connue que quelques heures n'est pas fiable :
+    
     # on ne le compte pas comme "sec", on le laisse inconnu.
     heures_couvertes = par_jour.size() * (3 if periode == "3h" else 1)
     return par_jour.sum()[heures_couvertes >= MIN_HEURES_PLUIE]

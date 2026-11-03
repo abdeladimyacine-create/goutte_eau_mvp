@@ -30,7 +30,7 @@ with open("model/metriques.json", encoding="utf-8") as f:
     metriques = json.load(f)
 
 
-SEUIL_ALERTE = metriques.get("seuil_alerte", 0.5)   # choisi lors de l'entraînement
+SEUIL_ALERTE = metriques.get("seuil_alerte", 0.5)   
 
 
 def niveau_risque(probabilite):
